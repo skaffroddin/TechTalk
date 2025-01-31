@@ -4,7 +4,7 @@ include 'config.php';
 
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
-    $password = $_POST['password'];
+    $password = md5($_POST['password']);
 
     $sql = "SELECT * FROM `user` WHERE `username` = '$username'";
     $result = mysqli_query($conn, $sql);

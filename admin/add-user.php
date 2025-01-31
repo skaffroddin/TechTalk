@@ -4,42 +4,32 @@ session_start();  // Start the session
 include "header.php"; 
 include('config.php');
 
-// // Check if the user is logged in and is an admin
-// if (!isset($_SESSION['role']) || $_SESSION['role'] != 1) {
-//     // Redirect to login or a different page if not an admin
-//     header("Location: {$hostname}/admin/"); 
-//     exit;
-// }
-
-// Check if the form is submitted
 if (isset($_POST['save'])) {
-    // Get form data
-    $fname = mysqli_real_escape_string($conn, $_REQUEST['fname']);
-    $lname = mysqli_real_escape_string($conn, $_REQUEST['lname']);
-    $user = mysqli_real_escape_string($conn, $_REQUEST['user']);
-    $password = $_REQUEST['password'];
-    $role = $_REQUEST['role'];
+    $fname =  $_POST['fname'];
+    $lname = mysqli_real_escape_string($conn, $_POST['lname']);
+    $user = mysqli_real_escape_string($conn, $_POST['user']);
+    $password = $_POST['password'];
+    $role = $_POST['role'];
 
-    // Check if username already exists
     $sql = "SELECT username FROM user WHERE username = '$user'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
-        echo "Username already exists.";
+        $_SESSION['error'] = "Username already exists.";
+        header("Location: {$_SERVER['PHP_SELF']}");
+        exit;
     } else {
-        // Hash the password using password_hash (recommended)
-        $hashed_password = password_hash($password, PASSWORD_BCRYPT);
+      
 
         // Insert new user into the database
         $sql1 = "INSERT INTO `user` (first_name, last_name, username, password, role)
                  VALUES ('$fname', '$lname', '$user', '$hashed_password', '$role')";
         
         if (mysqli_query($conn, $sql1)) {
+            $_SESSION['success'] = "User added successfully.";
             header("Location: {$hostname}/admin/users.php");
             exit;
-        } else {
-            echo "Error: " . mysqli_error($conn);
-        }
+        } 
     }
 }
 ?>
@@ -49,6 +39,16 @@ if (isset($_POST['save'])) {
         <div class="row">
             <div class="col-md-12">
                 <h1 class="admin-heading">Add User</h1>
+                <?php 
+                if (isset($_SESSION['error'])) {
+                    echo "<div class='alert alert-danger'>{$_SESSION['error']}</div>";
+                    unset($_SESSION['error']);
+                }
+                if (isset($_SESSION['success'])) {
+                    echo "<div class='alert alert-success'>{$_SESSION['success']}</div>";
+                    unset($_SESSION['success']);
+                }
+                ?>
             </div>
             <div class="col-md-offset-3 col-md-6">
                 <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">

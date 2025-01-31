@@ -1,4 +1,5 @@
-<?php include "header.php"; ?>
+<?php include "header.php";
+include "config.php"; ?>
 <div id="admin-content">
     <div class="container">
         <div class="row">
@@ -6,7 +7,7 @@
                 <h1 class="admin-heading">All Categories</h1>
             </div>
             <div class="col-md-2">
-                <a class="add-new" href="add-category.php">add category</a>
+                <a class="add-new" href="add-category.php">Add Category</a>
             </div>
             <div class="col-md-12">
                 <table class="content-table">
@@ -18,48 +19,26 @@
                         <th>Delete</th>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td class='id'>1</td>
-                            <td>Html</td>
-                            <td>5</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>2</td>
-                            <td>Css</td>
-                            <td>15</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>3</td>
-                            <td>Java</td>
-                            <td>8</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>4</td>
-                            <td>Php</td>
-                            <td>11</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>5</td>
-                            <td>Python</td>
-                            <td>13</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
-                        <tr>
-                            <td class='id'>6</td>
-                            <td>Scss</td>
-                            <td>3</td>
-                            <td class='edit'><a href='update-category.php'><i class='fa fa-edit'></i></a></td>
-                            <td class='delete'><a href='delete-category.php'><i class='fa fa-trash-o'></i></a></td>
-                        </tr>
+                        <?php
+                        // Make sure to update this query to reflect the actual table and column names
+                        $sql = "SELECT * FROM category";
+                        $result = mysqli_query($conn, $sql);
+                        if (mysqli_num_rows($result) > 0) {
+                            $i = 1;
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                echo "<tr>";
+                                echo "<td>{$i}</td>";
+                                echo "<td>{$row['category_name']}</td>";
+                                echo "<td>{$row['post']}</td>";
+                                echo "<td class='edit'><a href='update-category.php?id={$row['category_id']}'><i class='fa fa-edit'></i></a></td>";
+                                echo "<td class='delete'><a href='delete-category.php?id={$row['category_id']}'><i class='fa fa-trash-o'></i></a></td>";
+                                echo "</tr>";
+                                $i++;
+                            }
+                        } else {
+                            echo "<tr><td colspan='5'>No categories found</td></tr>";
+                        }
+                        ?>
                     </tbody>
                 </table>
                 <ul class='pagination admin-pagination'>
