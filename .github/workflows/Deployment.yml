@@ -15,19 +15,19 @@ jobs:
         with:
           fetch-depth: 2
 
-      - name: Install Node.js dependencies and build assets
-        run: |
-          npm install
-          npm run build
+      # - name: Install Node.js dependencies and build assets
+      #   run: |
+      #     npm install
+      #     npm run build
 
-      - name: Set up PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.2'
-          tools: composer
+      # - name: Set up PHP
+      #   uses: shivammathur/setup-php@v2
+      #   with:
+      #     php-version: '8.2'
+      #     tools: composer
 
-      - name: Install PHP dependencies
-        run: composer install --no-dev --optimize-autoloader
+      # - name: Install PHP dependencies
+      #   run: composer install --no-dev --optimize-autoloader
 
       - name: Deploy to FTP server
         uses: SamKirkland/FTP-Deploy-Action@4.3.0

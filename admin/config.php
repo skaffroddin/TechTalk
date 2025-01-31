@@ -1,5 +1,5 @@
 <?php
-$hostname = 'http://localhost/Projects/NewsPortal';
+$hostname = 'http://localhost/Projects/TechTalk';
 $servername = "localhost";
 $username = "root";
 $password = "";
