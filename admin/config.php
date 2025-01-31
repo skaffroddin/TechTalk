@@ -3,7 +3,7 @@ $hostname = 'http://localhost/Projects/TechTalk';
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "NewsPortal"; 
+$dbname = "TechTalk"; 
 
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
